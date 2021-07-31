@@ -1,9 +1,6 @@
-from functools import wraps
-import functools
-import json
-import pdb
-from requests import get
 from datetime import datetime
+from requests import get
+import json
 
 
 class CowinAPI(object):
@@ -24,30 +21,30 @@ class CowinAPI(object):
         url = '{}admin/location/states'.format(self.base_url)
         r1 = get(url, headers=self.headers)
         if r1.status_code == 200:
-            return True
-        return False
+            return True, r1.status_code
+        return False, r1.status_code
 
     def get_states(self) -> json:
         url = '{}admin/location/states'.format(self.base_url)
         r1 = get(url, headers=self.headers)
         if r1.status_code != 200:
-            return self.fail_meassage
-        return r1.json().get('states')
+            return self.fail_meassage, r1.status_code
+        return r1.json().get('states'), r1.status_code
 
     def get_districts(self, state_id) -> json:
         url = '{}admin/location/districts/{}'.format(self.base_url, state_id)
         r1 = get(url, headers=self.headers)
         if r1.status_code != 200:
-            return self.fail_meassage
-        return r1.json().get('districts')
+            return self.fail_meassage, r1.status_code
+        return r1.json().get('districts'), r1.status_code
 
     def get_avail_disricts(self, district_id) -> json:
         url = '{}appointment/sessions/public/calendarByDistrict?district_id={}&date={}'.format(
             self.base_url, district_id, self.get_today_date())
         r1 = get(url, headers=self.headers)
         if r1.status_code != 200:
-            return self.fail_meassage
-        return r1.json().get('centers')
+            return self.fail_meassage, r1.status_code
+        return r1.json().get('centers'), r1.status_code
 
 
 if __name__ == '__main__':
