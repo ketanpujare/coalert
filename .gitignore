@@ -1,2 +1,4 @@
 __pycache__/
+covalert.egg-info/
 venv/
+_token.py

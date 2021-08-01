@@ -87,18 +87,18 @@ class CowinDataHandler(CowinAPI):
         data, status = self.get_avail_disricts(args[0])
         if status == 200:
             _filter_data = self.data_parser(data, *args, **kwargs)
-            pprint(_filter_data)
+            return _filter_data
         else:
-            pprint(data)
+            return data
 
-
-obj = CowinDataHandler()
-d = {
-    'fee_type': 'Paid',
-    'vaccine': 'COVISHIELD',
-    'min_age_limit': 18,
-    'allow_all_age': True,
-    'dose_number': 1,
-    'exclude_pincode': [401501]
-}
-obj.covcaller(394, **d)
+if __name__ == '__main__':
+    obj = CowinDataHandler()
+    d = {
+        'fee_type': 'Paid',
+        'vaccine': 'COVISHIELD',
+        'min_age_limit': 18,
+        'allow_all_age': True,
+        'dose_number': 1,
+        'exclude_pincode': [401501]
+    }
+    obj.covcaller(394, **d)
